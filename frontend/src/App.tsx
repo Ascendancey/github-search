@@ -1,26 +1,58 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import * as React from 'react';
+import { connect } from 'react-redux';
+import { IRootState } from './store';
+import { Dispatch } from 'redux';
+import * as asyncactions from './store/demo/async-actions';
+import { DemoActions } from './store/demo/types';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const mapStateToProps = ({ demo }: IRootState) => {
+  const { list, loading } = demo;
+  return { list, loading };
+};
+
+const mapDispatcherToProps = (dispatch: Dispatch<DemoActions>) => {
+  return {
+    addItem: (item: string) => asyncactions.addItemAsync(dispatch, item),
+  };
+};
+
+type ReduxType = ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatcherToProps>;
+
+interface IState {
+  inputText: string;
 }
 
-export default App;
+class App extends React.Component<ReduxType, IState> {
+  public state: IState = {
+    inputText: '',
+  };
+
+  public onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ inputText: e.target.value });
+  };
+
+  public onAddClick = () => {
+    this.props.addItem(this.state.inputText);
+    this.setState({ inputText: '' });
+  };
+
+  public render() {
+    const { list, loading } = this.props;
+
+    return (
+      <div style={{ margin: '20px' }}>
+        <input value={this.state.inputText} onChange={this.onInputChange} />
+        <button onClick={this.onAddClick}>Add</button>
+        {loading && <div>Loading...</div>}
+        <ul>
+          {list.map((l, i) => (
+            <li key={i}>{l}</li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
+}
+
+export default connect(mapStateToProps, mapDispatcherToProps)(App);
