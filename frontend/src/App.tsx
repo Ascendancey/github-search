@@ -2,6 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { IRootState } from './store';
 import { Dispatch } from 'redux';
+import { request, gql } from 'graphql-request';
 import * as asyncactions from './store/demo/async-actions';
 import { DemoActions } from './store/demo/types';
 
@@ -22,6 +23,16 @@ type ReduxType = ReturnType<typeof mapStateToProps> &
 interface IState {
   inputText: string;
 }
+
+const query = gql`
+  query {
+    hello
+  }
+`;
+
+request(process.env.REACT_APP_GRAPHQL_API_URL as string, query).then((data) => {
+  console.log(data);
+});
 
 class App extends React.Component<ReduxType, IState> {
   public state: IState = {
