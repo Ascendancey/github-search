@@ -1,10 +1,11 @@
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { HelloResolver } from './hello.resolver';
+import { IssuesResolver } from './issues.resolver';
 
 @Module({
   imports: [
@@ -14,8 +15,9 @@ import { HelloResolver } from './hello.resolver';
       debug: false,
       playground: true,
     }),
+    ConfigModule.forRoot(),
   ],
   controllers: [AppController],
-  providers: [AppService, HelloResolver],
+  providers: [AppService, IssuesResolver],
 })
 export class AppModule {}

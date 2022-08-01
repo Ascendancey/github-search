@@ -11,3 +11,7 @@ The task is to make a front-end application that would get the issues from the o
 - React.JS + TypeScript
 - GraphQL
 - NestJS
+
+# How to run
+
+To run the project follow the instructions in 'frontend/README.md' and 'backend/README.md'. The latter also describes how to generate the GitHub key and how to use it.

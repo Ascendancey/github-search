@@ -26,13 +26,21 @@ interface IState {
 
 const query = gql`
   query {
-    hello
+    issues {
+      url
+      title
+      body
+    }
   }
 `;
 
-request(process.env.REACT_APP_GRAPHQL_API_URL as string, query).then((data) => {
-  console.log(data);
-});
+const requestButton = () => {
+  request(process.env.REACT_APP_GRAPHQL_API_URL as string, query).then(
+    (data) => {
+      console.log(data);
+    },
+  );
+};
 
 class App extends React.Component<ReduxType, IState> {
   public state: IState = {
@@ -55,6 +63,8 @@ class App extends React.Component<ReduxType, IState> {
       <div style={{ margin: '20px' }}>
         <input value={this.state.inputText} onChange={this.onInputChange} />
         <button onClick={this.onAddClick}>Add</button>
+        <br />
+        <button onClick={requestButton}>Send query</button>
         {loading && <div>Loading...</div>}
         <ul>
           {list.map((l, i) => (

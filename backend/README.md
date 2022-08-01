@@ -32,6 +32,29 @@
 $ npm install
 ```
 
+## Generating GitHub key
+
+Full process described <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token"> here</a>.
+
+The scopes to request:
+
+```bash
+repo
+repo_deployment
+read:packages
+read:org
+read:public_key
+read:repo_hook
+user
+read:discussion
+read:enterprise
+read:gpg_key
+```
+
+## Paste the key
+
+Change "./.env.example" file name to "./.env". Paste your key to the file and save it.
+
 ## Running the app
 
 ```bash
