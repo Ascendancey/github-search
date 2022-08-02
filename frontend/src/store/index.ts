@@ -4,18 +4,18 @@ import {
   applyMiddleware,
 } from 'redux';
 import thunk from 'redux-thunk';
-import { demoReducer } from './demo/reducer';
-import { IDemoState } from './demo/types';
+import { demoReducer } from './issues/reducer';
+import { IssuesState } from './issues/types';
 import { createLogger } from 'redux-logger';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 export interface IRootState {
-  demo: IDemoState;
+  issues: IssuesState;
 }
 
 const store = createStore<IRootState, any, any, any>(
   combineReducers({
-    demo: demoReducer,
+    issues: demoReducer,
   }),
   composeWithDevTools(
     applyMiddleware(

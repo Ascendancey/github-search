@@ -6,8 +6,9 @@ type Issue {
   url: String!
   title: String!
   body: String!
+  state: String!
 }
 
 type Query {
-  issues: [Issue!]!
+  issues(lastNum: Float!, open: Boolean!, closed: Boolean!, term: String!): [Issue!]!
 }

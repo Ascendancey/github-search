@@ -3,15 +3,15 @@ import { connect } from 'react-redux';
 import { IRootState } from './store';
 import { Dispatch } from 'redux';
 import { request, gql } from 'graphql-request';
-import * as asyncactions from './store/demo/async-actions';
-import { DemoActions } from './store/demo/types';
+import * as asyncactions from './store/issues/async-actions';
+import { IssuesActions } from './store/issues/types';
 
-const mapStateToProps = ({ demo }: IRootState) => {
-  const { list, loading } = demo;
+const mapStateToProps = ({ issues }: IRootState) => {
+  const { list, loading } = issues;
   return { list, loading };
 };
 
-const mapDispatcherToProps = (dispatch: Dispatch<DemoActions>) => {
+const mapDispatcherToProps = (dispatch: Dispatch<IssuesActions>) => {
   return {
     addItem: (item: string) => asyncactions.addItemAsync(dispatch, item),
   };
@@ -25,21 +25,31 @@ interface IState {
 }
 
 const query = gql`
-  query {
-    issues {
+  query ($lastNum: Float!, $open: Boolean!, $closed: Boolean!, $term: String!) {
+    issues(lastNum: $lastNum, open: $open, closed: $closed, term: $term) {
       url
       title
       body
+      state
     }
   }
 `;
 
+const variables = {
+  lastNum: 20,
+  open: true,
+  closed: true,
+  term: '',
+};
+
 const requestButton = () => {
-  request(process.env.REACT_APP_GRAPHQL_API_URL as string, query).then(
-    (data) => {
-      console.log(data);
-    },
-  );
+  request(
+    process.env.REACT_APP_GRAPHQL_API_URL as string,
+    query,
+    variables,
+  ).then((data) => {
+    console.log(data);
+  });
 };
 
 class App extends React.Component<ReduxType, IState> {

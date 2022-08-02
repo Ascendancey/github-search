@@ -10,4 +10,7 @@ export class Issue {
 
   @Field((type) => String)
   body: string;
+
+  @Field((type) => String)
+  state: string;
 }

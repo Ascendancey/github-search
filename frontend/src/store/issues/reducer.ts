@@ -1,14 +1,14 @@
-import { Constants, DemoActions, IDemoState } from './types';
+import { Constants, IssuesActions, IssuesState } from './types';
 
-const init: IDemoState = {
+const init: IssuesState = {
   list: [],
   loading: false,
 };
 
 export function demoReducer(
-  state: IDemoState = init,
-  action: DemoActions,
-): IDemoState {
+  state: IssuesState = init,
+  action: IssuesActions,
+): IssuesState {
   switch (action.type) {
     case Constants.ADD_ITEM:
       return { ...state, list: [...state.list, action.payload.item] };
