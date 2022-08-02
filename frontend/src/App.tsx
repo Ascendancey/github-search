@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { IRootState } from './store';
 import { Dispatch } from 'redux';
 import { request, gql } from 'graphql-request';
-import * as asyncactions from './store/issues/async-actions';
-import { IssuesActions } from './store/issues/types';
+import * as asyncactions from './issues/async-actions';
+import { IssuesActions } from './issues/types';
 
 const mapStateToProps = ({ issues }: IRootState) => {
   const { list, loading } = issues;
