@@ -1,7 +1,7 @@
 import { Constants, IssuesActions, IssuesState } from './types';
 
 const init: IssuesState = {
-  list: [],
+  list: ['issue1', 'issue2'],
   loading: false,
 };
 
@@ -10,10 +10,12 @@ export function demoReducer(
   action: IssuesActions,
 ): IssuesState {
   switch (action.type) {
-    case Constants.ADD_ITEM:
-      return { ...state, list: [...state.list, action.payload.item] };
-    case Constants.SET_LOADING:
-      return { ...state, ...action.payload };
+    case `${Constants.LOADING}_PENDING`:
+      return { ...state, loading: true };
+    case `${Constants.LOADING}_REJECTED`:
+      return { ...state, loading: false };
+    case `${Constants.LOADING}_FULFILLED`:
+      return { ...state, loading: false };
     default:
       return state;
   }
