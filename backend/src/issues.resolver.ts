@@ -1,6 +1,7 @@
 import { Query, Resolver, Args } from '@nestjs/graphql';
 import { GraphQLClient, gql } from 'graphql-request';
 import { IssuesArgs } from './args';
+import truncate from './helper';
 import { Issue } from './types';
 
 @Resolver()
@@ -48,7 +49,14 @@ export class IssuesResolver {
       const data = await graphQLClient.request(query, issuesArgs);
       for (let i = 0; i < data.search.nodes.length; i++) {
         if (data.search.nodes[i].url) {
-          issues.push(data.search.nodes[i]);
+          let issue: Issue = {
+            number: data.search.nodes[i].number,
+            url: data.search.nodes[i].url,
+            title: truncate(data.search.nodes[i].title, 85),
+            bodyText: truncate(data.search.nodes[i].bodyText, 140),
+            state: data.search.nodes[i].state,
+          };
+          issues.push(issue);
         }
       }
     }
