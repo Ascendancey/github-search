@@ -5,7 +5,9 @@ import { IRootState } from '../store';
 import { Dispatch } from 'redux';
 import * as actions from './actions';
 import { IssuesState } from './types';
-import Card from './card';
+import CircularProgress from '@mui/material/CircularProgress';
+import Grid from '@mui/material/Grid';
+import Card from './components/card';
 
 const Issues = (props: IssuesState) => {
   const { list, loading } = props;
@@ -38,20 +40,35 @@ const Issues = (props: IssuesState) => {
   };
 
   return (
-    <div>
-      <input value={term} onChange={onInputChange} />
+    <div style={{ margin: 16 }}>
+      <input
+        value={term}
+        onChange={onInputChange}
+        onKeyPress={(ev) => {
+          if (ev.key === 'Enter') {
+            ev.preventDefault();
+            requestButton();
+          }
+        }}
+      />
       <input type="checkbox" checked={open} onChange={onOpenChange} />
       <label>OPEN</label>
       <input type="checkbox" checked={closed} onChange={onClosedChange} />
       <label>CLOSED</label>
       <button onClick={requestButton}>Send query</button>
       <button onClick={issueButton}>Issue query</button>
-      {loading && <i>Loading...</i>}
-      <ul>
+      {loading && <CircularProgress />}
+      <Grid
+        container
+        spacing={{ xs: 2, md: 3 }}
+        columns={{ xs: 4, sm: 8, md: 12 }}
+      >
         {list.map((l: any, i) => (
-          <Card key={i} title={l.title} bodyText={l.bodyText} />
+          <Grid item sm={12} md={6} key={i}>
+            <Card title={l.title} bodyText={l.bodyText} />
+          </Grid>
         ))}
-      </ul>
+      </Grid>
     </div>
   );
 };
