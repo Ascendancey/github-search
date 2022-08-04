@@ -1,6 +1,6 @@
 import { request, gql } from 'graphql-request';
 
-export function issuesQuery(term: string) {
+export function issuesQuery(term: string, open: boolean, closed: boolean) {
   const query = gql`
     query (
       $lastNum: Float!
@@ -20,9 +20,8 @@ export function issuesQuery(term: string) {
 
   const variables = {
     lastNum: 20,
-    open: true,
-    closed: true,
-    term: '',
+    open: open,
+    closed: closed,
   };
 
   return request(process.env.REACT_APP_GRAPHQL_API_URL as string, query, {

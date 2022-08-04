@@ -1,7 +1,7 @@
 import { Query, Resolver, Args } from '@nestjs/graphql';
 import { GraphQLClient, gql } from 'graphql-request';
 import { IssuesArgs } from './args';
-import { Issue, Comment, Author } from './types';
+import { Issue } from './types';
 
 @Resolver()
 export class IssuesResolver {
@@ -15,31 +15,41 @@ export class IssuesResolver {
       },
     });
 
-    const query = gql`
-      {
-        search(
-          query: "repo:facebook/react in:title in:body ${issuesArgs.term}"
-          type: ISSUE
-          first: 20
-        ) {
-          nodes {
-            ... on Issue {
-              number
-              url
-              title
-              bodyText
-              state
+    let openclosed = '';
+    if (issuesArgs.open && !issuesArgs.closed) {
+      openclosed = 'state:open';
+    }
+    if (!issuesArgs.open && issuesArgs.closed) {
+      openclosed = 'state:closed';
+    }
+
+    let issues = [];
+    if (issuesArgs.open || issuesArgs.closed) {
+      const query = gql`
+        {
+          search(
+            query: "repo:facebook/react ${openclosed} in:title,body ${issuesArgs.term}"
+            type: ISSUE
+            last: 20
+          ) {
+            nodes {
+              ... on Issue {
+                number
+                url
+                title
+                bodyText
+                state
+              }
             }
           }
         }
-      }
-    `;
+      `;
 
-    const data = await graphQLClient.request(query, issuesArgs);
-    let issues = [];
-    for (let i = 0; i < data.search.nodes.length; i++) {
-      if (data.search.nodes[i].url) {
-        issues.push(data.search.nodes[i]);
+      const data = await graphQLClient.request(query, issuesArgs);
+      for (let i = 0; i < data.search.nodes.length; i++) {
+        if (data.search.nodes[i].url) {
+          issues.push(data.search.nodes[i]);
+        }
       }
     }
 

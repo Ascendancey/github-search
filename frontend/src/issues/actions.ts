@@ -23,16 +23,17 @@ export function fulfilled(type: any, payload: any) {
   };
 }
 
-export const issuesQuery = (term: string) => (dispatch: any) => {
-  dispatch(pending(Constants.ISSUES), null);
-  API.issuesQuery(term)
-    .then((payload) => {
-      dispatch(fulfilled(Constants.ISSUES, payload));
-    })
-    .catch((err: any) => {
-      dispatch(rejected(Constants.ISSUES, err));
-    });
-};
+export const issuesQuery =
+  (term: string, open: boolean, closed: boolean) => (dispatch: any) => {
+    dispatch(pending(Constants.ISSUES), null);
+    API.issuesQuery(term, open, closed)
+      .then((payload) => {
+        dispatch(fulfilled(Constants.ISSUES, payload));
+      })
+      .catch((err: any) => {
+        dispatch(rejected(Constants.ISSUES, err));
+      });
+  };
 
 export const issueQuery = (term: number) => (dispatch: any) => {
   dispatch(pending(Constants.ISSUE), null);
