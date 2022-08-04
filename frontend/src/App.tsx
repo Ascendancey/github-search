@@ -1,12 +1,18 @@
 import * as React from 'react';
+import CssBaseline from '@mui/material/CssBaseline';
+import Container from '@mui/material/Container';
+
 import Issues from './issues/issues';
 
 class App extends React.Component {
   public render() {
     return (
-      <div style={{ margin: '16px' }}>
-        <Issues />
-      </div>
+      <React.Fragment>
+        <CssBaseline />
+        <Container>
+          <Issues />
+        </Container>
+      </React.Fragment>
     );
   }
 }
