@@ -5,7 +5,7 @@
 type Issue {
   url: String!
   title: String!
-  body: String!
+  bodyText: String!
   state: String!
 }
 

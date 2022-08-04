@@ -16,28 +16,32 @@ export class IssuesResolver {
     });
 
     const query = gql`
-      query {
-        repository(owner: "facebook", name: "react") {
-          issues(last: 20, states: [OPEN, CLOSED]) {
-            edges {
-              node {
-                url
-                title
-                body
-                state
-              }
+      {
+        search(
+          query: "repo:facebook/react in:title in:body ${issuesArgs.term}"
+          type: ISSUE
+          first: 20
+        ) {
+          nodes {
+            ... on Issue {
+              url
+              title
+              bodyText
+              state
             }
           }
         }
       }
     `;
 
-    const data = await graphQLClient.request(query);
-
+    const data = await graphQLClient.request(query, issuesArgs);
+    console.log(data);
     let issues = [];
-    data.repository.issues.edges.forEach((value) => issues.push(value.node));
-    console.log(issues);
-    console.log(issuesArgs);
+    for (let i = 0; i < data.search.nodes.length; i++) {
+      if (data.search.nodes[i].url) {
+        issues.push(data.search.nodes[i]);
+      }
+    }
 
     return issues;
   }

@@ -5,22 +5,19 @@ import { IRootState } from '../store';
 import { Dispatch } from 'redux';
 import * as actions from './actions';
 import { IssuesState } from './types';
+import Card from './card';
 
 const Issues = (props: IssuesState) => {
   const { list, loading } = props;
   const [term, setTerm] = React.useState('');
   const dispatch: Dispatch<any> = useDispatch();
 
-  const issuesQuery = () => {
-    dispatch(actions.setLoading(true));
-    dispatch(actions.setLoading(false));
-  };
   const requestButton = () => {
-    dispatch(actions.issuesQuery());
+    dispatch(actions.issuesQuery(term));
   };
 
   useEffect(() => {
-    issuesQuery();
+    requestButton();
     // eslint-disable-next-line
   }, []);
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,10 +27,10 @@ const Issues = (props: IssuesState) => {
     <div>
       <input value={term} onChange={onInputChange} />
       <button onClick={requestButton}>Send query</button>
-      {loading && <div>Loading...</div>}
+      {loading && <i>Loading...</i>}
       <ul>
-        {list.map((l, i) => (
-          <li key={i}>{l}</li>
+        {list.map((l: any, i) => (
+          <Card key={i} title={l.title} bodyText={l.bodyText} />
         ))}
       </ul>
     </div>

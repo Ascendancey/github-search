@@ -9,7 +9,7 @@ export class Issue {
   title: string;
 
   @Field((type) => String)
-  body: string;
+  bodyText: string;
 
   @Field((type) => String)
   state: string;

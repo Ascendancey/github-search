@@ -4,7 +4,7 @@ import * as actions from './actions';
 export type IssuesActions = ActionType<typeof actions>;
 
 export interface IssuesState {
-  list: string[];
+  list: object[];
   loading: boolean;
 }
 

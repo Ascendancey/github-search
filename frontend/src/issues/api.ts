@@ -5,7 +5,7 @@ const query = gql`
     issues(lastNum: $lastNum, open: $open, closed: $closed, term: $term) {
       url
       title
-      body
+      bodyText
       state
     }
   }
@@ -18,12 +18,11 @@ const variables = {
   term: '',
 };
 
-export function issuesQuery() {
-  return request(
-    process.env.REACT_APP_GRAPHQL_API_URL as string,
-    query,
-    variables,
-  ).then((data) => {
+export function issuesQuery(term: string) {
+  return request(process.env.REACT_APP_GRAPHQL_API_URL as string, query, {
+    ...variables,
+    term: term,
+  }).then((data) => {
     console.log(data);
     return data;
   });
