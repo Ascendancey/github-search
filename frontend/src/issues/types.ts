@@ -5,9 +5,11 @@ export type IssuesActions = ActionType<typeof actions>;
 
 export interface IssuesState {
   list: object[];
+  issue: object;
   loading: boolean;
 }
 
 export enum Constants {
-  LOADING = 'LOADING',
+  ISSUES = 'ISSUES',
+  ISSUE = 'ISSUE',
 }

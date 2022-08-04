@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { connect, useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import { IRootState } from '../store';
-import { IssuesState } from './types';
 
 interface Props {
   title: string;

@@ -2,13 +2,25 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Author {
+  login: String!
+}
+
+type Comment {
+  bodyText: String!
+  author: Author!
+}
+
 type Issue {
+  number: Float!
   url: String!
   title: String!
   bodyText: String!
   state: String!
+  comments: [Comment!]!
 }
 
 type Query {
   issues(lastNum: Float!, open: Boolean!, closed: Boolean!, term: String!): [Issue!]!
+  issue(issueNumber: Float!): Issue!
 }

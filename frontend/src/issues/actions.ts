@@ -24,18 +24,29 @@ export function fulfilled(type: any, payload: any) {
 }
 
 export const issuesQuery = (term: string) => (dispatch: any) => {
-  dispatch(pending(Constants.LOADING), null);
+  dispatch(pending(Constants.ISSUES), null);
   API.issuesQuery(term)
     .then((payload) => {
-      dispatch(fulfilled(Constants.LOADING, payload));
+      dispatch(fulfilled(Constants.ISSUES, payload));
     })
     .catch((err: any) => {
-      dispatch(rejected(Constants.LOADING, err));
+      dispatch(rejected(Constants.ISSUES, err));
+    });
+};
+
+export const issueQuery = (term: number) => (dispatch: any) => {
+  dispatch(pending(Constants.ISSUE), null);
+  API.issueQuery(term)
+    .then((payload) => {
+      dispatch(fulfilled(Constants.ISSUE, payload));
+    })
+    .catch((err: any) => {
+      dispatch(rejected(Constants.ISSUE, err));
     });
 };
 
 export function setLoading(loading: boolean) {
-  return action(Constants.LOADING, {
+  return action(Constants.ISSUES, {
     loading,
   });
 }

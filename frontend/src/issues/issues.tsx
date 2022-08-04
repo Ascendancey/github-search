@@ -16,6 +16,10 @@ const Issues = (props: IssuesState) => {
     dispatch(actions.issuesQuery(term));
   };
 
+  const issueButton = () => {
+    dispatch(actions.issueQuery(19034));
+  };
+
   useEffect(() => {
     requestButton();
     // eslint-disable-next-line
@@ -27,6 +31,7 @@ const Issues = (props: IssuesState) => {
     <div>
       <input value={term} onChange={onInputChange} />
       <button onClick={requestButton}>Send query</button>
+      <button onClick={issueButton}>Issue query</button>
       {loading && <i>Loading...</i>}
       <ul>
         {list.map((l: any, i) => (
@@ -38,8 +43,8 @@ const Issues = (props: IssuesState) => {
 };
 
 const mapStateToProps = ({ issues }: IRootState) => {
-  const { list, loading } = issues;
-  return { list, loading };
+  const { list, issue, loading } = issues;
+  return { list, issue, loading };
 };
 
 export default connect(mapStateToProps)(Issues);
