@@ -3,6 +3,7 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
+import Dialog from './dialog';
 
 interface Props {
   title: string;
@@ -22,7 +23,7 @@ export default function BasicCard(props: Props) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Learn More</Button>
+        <Dialog id={props.number} />
       </CardActions>
     </Card>
   );
