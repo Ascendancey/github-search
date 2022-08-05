@@ -9,6 +9,11 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Grid from '@mui/material/Grid';
 import Card from './components/card';
 
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+
 const Issues = (props: IssuesState) => {
   const { list, loading } = props;
   const [term, setTerm] = React.useState('');
@@ -18,10 +23,6 @@ const Issues = (props: IssuesState) => {
 
   const requestButton = () => {
     dispatch(actions.issuesQuery(term, open, closed));
-  };
-
-  const issueButton = () => {
-    dispatch(actions.issueQuery(19034));
   };
 
   useEffect(() => {
@@ -41,23 +42,35 @@ const Issues = (props: IssuesState) => {
 
   return (
     <div style={{ margin: 16 }}>
-      <input
-        value={term}
-        onChange={onInputChange}
-        onKeyPress={(ev) => {
-          if (ev.key === 'Enter') {
-            ev.preventDefault();
-            requestButton();
-          }
-        }}
-      />
-      <input type="checkbox" checked={open} onChange={onOpenChange} />
-      <label>OPEN</label>
-      <input type="checkbox" checked={closed} onChange={onClosedChange} />
-      <label>CLOSED</label>
-      <button onClick={requestButton}>Send query</button>
-      <button onClick={issueButton}>Issue query</button>
-      {loading && <CircularProgress />}
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <TextField
+          id="standard-basic"
+          label="Look for something..."
+          variant="standard"
+          value={term}
+          onChange={onInputChange}
+          onKeyPress={(ev) => {
+            if (ev.key === 'Enter') {
+              ev.preventDefault();
+              requestButton();
+            }
+          }}
+        />
+        <FormControlLabel
+          control={<Checkbox checked={open} onChange={onOpenChange} />}
+          label="Open"
+        />
+        <FormControlLabel
+          control={<Checkbox checked={closed} onChange={onClosedChange} />}
+          label="Closed"
+        />
+        <Button variant="outlined" onClick={requestButton}>
+          Search
+        </Button>
+      </div>
+      <div style={{ height: 32, display: 'flex', justifyContent: 'center' }}>
+        {loading && <CircularProgress size={24} />}
+      </div>
       <Grid
         container
         spacing={{ xs: 2, md: 3 }}
@@ -65,7 +78,7 @@ const Issues = (props: IssuesState) => {
       >
         {list.map((l: any, i) => (
           <Grid item sm={12} md={6} key={i}>
-            <Card title={l.title} bodyText={l.bodyText} />
+            <Card title={l.title} bodyText={l.bodyText} number={l.number} />
           </Grid>
         ))}
       </Grid>
